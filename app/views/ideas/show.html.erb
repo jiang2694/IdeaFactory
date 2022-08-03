@@ -6,7 +6,12 @@
       Posted <%= time_tag @idea.created_at, "data-local":"time-ago" %> by <%= @idea.user&.name || "Deleted User" %>
     </small>
   </div>
-  
+
+ <% if @like.present? %>
+    <%= button_to "Unlike", like_path(@like), method: :delete %>
+  <% else %>
+    <%= button_to "Like", idea_likes_path(@idea), method: :post %>
+  <% end %>
 </div>
 <hr />
 <div>
@@ -31,33 +36,11 @@
     <% if user_signed_in? %>
       <%= f.submit "Submit", class:"btn btn-outline-primary" %> 
     <% else %>
-      <%= link_to "Sign In", session_path, class:"btn btn-outline-primary" %>
+      <%= link_to "Sign In", new_session_path, class:"btn btn-outline-primary" %>
       or
-      <%= link_to "Sign Up", new_session_path, class:"btn btn-outline-primary" %>
+       <%= link_to "Sign Up", new_user_path, class:"btn btn-outline-primary" %>
     <% end %>
   <% end %>
 </div>
 
-<% if @reviews.any? %>
-  <div class="mt-4">
-   <h4><%= pluralize(@reviews.count, "Reviews") %></h4>
-    <% @reviews.each do |review| %>
-    <div id="<%= dom_id(reviews) %>" class="my-3">
-      <div><%= review.body %></div>
-      <small class="d-flex">
-        <span>
-        By <%=  review.user&.name || "Deleted User" %>, 
-        <%= time_tag review.created_at, "data-local":"time-ago" %>
-        </span>
-        <% if can? :destroy, review %>
-          <span class="mx-1">·</span>
-          <%= button_to "Delete", idea_review_path(@idea, review), method:
-          :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class:
-          "link-primary link-btn" %>
-        <% end %>
-      </small>
-      <hr />
-    </div>
-    <% end %>
-  </div>
-<% end %>
+  

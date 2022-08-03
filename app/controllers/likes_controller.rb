@@ -3,14 +3,13 @@ class LikesController < ApplicationController
   before_action :authenticated_user!, only: %i[create destroy]
 
   def create
-    idea = Idea.find params[:idea_id]
-    like = Like.new( user: current_user, idea: idea )
-    if can?(:like, idea)
-      if like.save
+    @idea = Idea.find params[:idea_id]
+    @like = Like.new( user: current_user, idea: @idea )
+      if @like.save
         flash[:success] = "Idea liked"
-        redirect_to ideas_path(idea)
+        redirect_to ideas_path(@idea)
       else
-        flash[:alert] = like.errors.full_messages.join(', ')
+        flash[:alert] = @like.errors.full_messages.join(', ')
         redirect_to root_path
       end
   end
@@ -27,3 +26,4 @@ class LikesController < ApplicationController
     end
   end
 end
+
