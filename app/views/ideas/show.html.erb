@@ -1,0 +1,46 @@
+<div class="mb-4">
+  <h2 class="mb-4"><%= @idea.title %></h2>
+  <p class="mb-4"><%= @idea.description %></p>
+  <div>
+    <small>
+      Posted <%= time_tag @idea.created_at, "data-local":"time-ago" %> by <%= @idea.user&.name || "Deleted User" %>
+    </small>
+  </div>
+
+ <% if @like.present? %>
+    <%= button_to "Unlike", like_path(@like), method: :delete %>
+  <% else %>
+    <%= button_to "Like", idea_likes_path(@idea), method: :post %>
+  <% end %>
+</div>
+<hr />
+<div>
+  <h4>Write Review</h4>
+  <% if @review.errors.any? %>
+    <div class="alert alert-danger">
+      <h5>
+        <%= pluralize(@review.errors.count, "error") %> prohibited this comment
+        from being saved:
+      </h5>
+      <ul class="m-0">
+        <% @review.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form_with(model:[@idea, @review]) do |f| %>
+    <div class="mb-3">
+      <%= f.text_area :body, class:"form-control", disabled: !user_signed_in? %>
+    </div>
+    <% if user_signed_in? %>
+      <%= f.submit "Submit", class:"btn btn-outline-primary" %> 
+    <% else %>
+      <%= link_to "Sign In", new_session_path, class:"btn btn-outline-primary" %>
+      or
+       <%= link_to "Sign Up", new_user_path, class:"btn btn-outline-primary" %>
+    <% end %>
+  <% end %>
+</div>
+
+  

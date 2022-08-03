@@ -1,0 +1,19 @@
+<div class="row">
+  <% @ideas.each do |idea| %>
+  <div id="<%= dom_id idea %>" class="col-md-12 col-lg-6 col-xl-4 mb-3">
+    <%= link_to idea, class:"card-link" do %>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-primary ellipsis-2"><%= idea.title %></h5>
+          <p class="card-text ellipsis-1"><%= idea.description %></p>
+          <div class="text-end">
+            <span class="badge bg-light text-muted">
+              <%= time_tag idea.created_at, "data-local":"time-or-date" %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>

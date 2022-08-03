@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Quiz02</title>
+    <title>Idea Factory</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,44 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%# Nav Bar  %>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top">
+      <div class="container-fluid">
+        <%= link_to 'Idea Factory', root_path, class:"navbar-brand" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <%= link_to 'New Idea', new_idea_path, class:"nav-link" %>
+            </li>
+            <% if user_signed_in? %>
+                <a>Hi <%= current_user.name %></a>
+        
+              <li>
+                <%= button_to 'Sign Out', session_path(current_user.id), method: :delete, class:"nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_session_path, class:"nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_path, class:"nav-link" %>
+              </li>
+            <% end %>
+        </div>
+      </div>
+    </nav>
+    
+    <%# flashs %>
+    <div class="container mt-4">
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type %>" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
+      <div><%= yield %></div>
+    </div>
   </body>
 </html>
