@@ -1,0 +1,15 @@
+<h1 class="mb-4">Sign In</h1>
+
+<div>
+<%= form_with url: session_path, data: { turbo: false } do |form| %>
+  <div class="mb-4">
+    <%= form.label :email %>
+    <%= form.text_field :email, class:"form-control" %>
+  </div>
+  <div class="mb-4">
+    <%= form.label :password %>
+    <%= form.password_field :password, class:"form-control" %>
+  </div>
+  <%= form.submit "Sign In", class:"btn btn-outline-primary" %>
+<% end %>
+</div>

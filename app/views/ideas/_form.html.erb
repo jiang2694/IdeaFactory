@@ -1,0 +1,18 @@
+<%= form_with model: @idea, data: { turbo: false } do |form| %>
+<% if @idea.errors.any? %>
+<ul>
+  <% @idea.errors.full_messages.each do |msg| %>
+  <li class = "alarm"><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+<div class="mb-4">
+    <%= form.label :title %>
+    <%= form.text_field :title, class:"form-control" %>
+  </div>
+  <div class="mb-4">
+    <%= form.label :description %>
+    <%= form.text_area :description, class:"form-control" %>
+  </div>
+  <%= form.submit button, class:"btn btn-outline-primary" %> 
+<% end %>
